@@ -14,7 +14,7 @@ interface CurrencyData {
 
 const CurrencyConverter = () => {
   const [amount, setAmount] = useState<string>('1000.00');
-  const [fromCurrency, setFromCurrency] = useState<string>('SGD');
+  const [fromCurrency, setFromCurrency] = useState<string>('INR');
   const [toCurrency, setToCurrency] = useState<string>('USD');
   const [exchangeRates, setExchangeRates] = useState<ExchangeRates>({});
   const [convertedAmount, setConvertedAmount] = useState<number>(0);
@@ -157,7 +157,7 @@ const CurrencyConverter = () => {
                 >
                   {currencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
-                      {currency.code}
+                      {currency.code} - {currency.name}
                     </option>
                   ))}
                 </select>
@@ -198,7 +198,7 @@ const CurrencyConverter = () => {
                 >
                   {currencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
-                      {currency.code}
+                      {currency.code} - {currency.name}
                     </option>
                   ))}
                 </select>
