@@ -23,16 +23,16 @@ const CurrencyConverter = () => {
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
   const currencies: CurrencyData[] = [
-    { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸' },
-    { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺' },
-    { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧' },
-    { code: 'JPY', name: 'Japanese Yen', symbol: '¥', flag: '🇯🇵' },
-    { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦' },
-    { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺' },
-    { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: '🇨🇭' },
-    { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳' },
-    { code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳' },
-    { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', flag: '🇸🇬' }
+    { code: 'USD', name: 'US Dollar', symbol: '$', flag: 'us' },
+    { code: 'EUR', name: 'Euro', symbol: '€', flag: 'eu' },
+    { code: 'GBP', name: 'British Pound', symbol: '£', flag: 'gb' },
+    { code: 'JPY', name: 'Japanese Yen', symbol: '¥', flag: 'jp' },
+    { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: 'ca' },
+    { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: 'au' },
+    { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: 'ch' },
+    { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: 'cn' },
+    { code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: 'in' },
+    { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', flag: 'sg' }
   ];
 
   useEffect(() => {
@@ -109,6 +109,10 @@ const CurrencyConverter = () => {
     return currencies.find(c => c.code === code) || currencies[0];
   };
 
+  const getFlagUrl = (countryCode: string) => {
+    return `https://flagcdn.com/24x18/${countryCode}.png`;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-100">
@@ -148,20 +152,27 @@ const CurrencyConverter = () => {
           <div className="mb-6">
             <label className="block text-gray-500 text-sm mb-3">Amount</label>
             <div className="flex items-center bg-gray-50 rounded-2xl p-4">
-              <div className="flex items-center mr-4">
-                <span className="text-2xl mr-2">{getCurrencyData(fromCurrency).flag}</span>
+              <div className="flex items-center mr-3 min-w-0 flex-shrink-0">
+                <img 
+                  src={getFlagUrl(getCurrencyData(fromCurrency).flag)} 
+                  alt={`${fromCurrency} flag`}
+                  className="w-6 h-4 mr-2 rounded"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
                 <select
                   value={fromCurrency}
                   onChange={(e) => setFromCurrency(e.target.value)}
-                  className="bg-transparent text-lg font-semibold text-gray-800 focus:outline-none appearance-none pr-2"
+                  className="bg-transparent text-sm font-semibold text-gray-800 focus:outline-none appearance-none min-w-0"
                 >
                   {currencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
-                      {currency.code} - {currency.name}
+                      {currency.code}
                     </option>
                   ))}
                 </select>
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 text-gray-400 ml-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -169,7 +180,7 @@ const CurrencyConverter = () => {
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="bg-transparent text-right text-lg font-semibold text-gray-800 focus:outline-none flex-1"
+                className="bg-transparent text-right text-lg font-semibold text-gray-800 focus:outline-none flex-1 min-w-0"
                 placeholder="0.00"
               />
             </div>
@@ -189,24 +200,31 @@ const CurrencyConverter = () => {
           <div className="mb-6">
             <label className="block text-gray-500 text-sm mb-3">Converted Amount</label>
             <div className="flex items-center bg-gray-50 rounded-2xl p-4">
-              <div className="flex items-center mr-4">
-                <span className="text-2xl mr-2">{getCurrencyData(toCurrency).flag}</span>
+              <div className="flex items-center mr-3 min-w-0 flex-shrink-0">
+                <img 
+                  src={getFlagUrl(getCurrencyData(toCurrency).flag)} 
+                  alt={`${toCurrency} flag`}
+                  className="w-6 h-4 mr-2 rounded"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
                 <select
                   value={toCurrency}
                   onChange={(e) => setToCurrency(e.target.value)}
-                  className="bg-transparent text-lg font-semibold text-gray-800 focus:outline-none appearance-none pr-2"
+                  className="bg-transparent text-sm font-semibold text-gray-800 focus:outline-none appearance-none min-w-0"
                 >
                   {currencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
-                      {currency.code} - {currency.name}
+                      {currency.code}
                     </option>
                   ))}
                 </select>
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 text-gray-400 ml-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-              <div className="text-right text-lg font-semibold text-gray-800 flex-1">
+              <div className="text-right text-lg font-semibold text-gray-800 flex-1 min-w-0 truncate">
                 {convertedAmount.toFixed(2)}
               </div>
             </div>
@@ -216,7 +234,7 @@ const CurrencyConverter = () => {
           <div className="text-center">
             <p className="text-gray-500 text-sm mb-1">Indicative Exchange Rate</p>
             {getExchangeRate() > 0 && (
-              <p className="text-gray-800 font-semibold">
+              <p className="text-gray-800 font-semibold text-sm">
                 1 {fromCurrency} = {getExchangeRate().toFixed(4)} {toCurrency}
               </p>
             )}
